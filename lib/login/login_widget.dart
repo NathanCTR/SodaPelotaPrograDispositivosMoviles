@@ -1,6 +1,8 @@
+import '/auth/firebase_auth/auth_util.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import '/flutter_flow/flutter_flow_widgets.dart';
+import '/index.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'login_model.dart';
@@ -312,7 +314,7 @@ class _LoginWidgetState extends State<LoginWidget> {
                               focusNode: _model.txtcontrasenaFocusNode,
                               autofocus: false,
                               enabled: true,
-                              obscureText: false,
+                              obscureText: !_model.txtcontrasenaVisibility,
                               decoration: InputDecoration(
                                 isDense: true,
                                 labelStyle: FlutterFlowTheme.of(context)
@@ -385,6 +387,19 @@ class _LoginWidgetState extends State<LoginWidget> {
                                 filled: true,
                                 fillColor: FlutterFlowTheme.of(context)
                                     .secondaryBackground,
+                                suffixIcon: InkWell(
+                                  onTap: () => safeSetState(
+                                    () => _model.txtcontrasenaVisibility =
+                                        !_model.txtcontrasenaVisibility,
+                                  ),
+                                  focusNode: FocusNode(skipTraversal: true),
+                                  child: Icon(
+                                    _model.txtcontrasenaVisibility
+                                        ? Icons.visibility_outlined
+                                        : Icons.visibility_off_outlined,
+                                    size: 22,
+                                  ),
+                                ),
                               ),
                               style: FlutterFlowTheme.of(context)
                                   .bodyMedium
@@ -427,8 +442,20 @@ class _LoginWidgetState extends State<LoginWidget> {
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
                       FFButtonWidget(
-                        onPressed: () {
-                          print('btnlogin pressed ...');
+                        onPressed: () async {
+                          GoRouter.of(context).prepareAuthEvent();
+
+                          final user = await authManager.signInWithEmail(
+                            context,
+                            _model.txtcorreoTextController.text,
+                            _model.txtcontrasenaTextController.text,
+                          );
+                          if (user == null) {
+                            return;
+                          }
+
+                          context.goNamedAuth(
+                              IndexWidget.routeName, context.mounted);
                         },
                         text: 'Log In',
                         options: FFButtonOptions(
@@ -437,7 +464,7 @@ class _LoginWidgetState extends State<LoginWidget> {
                               16.0, 0.0, 16.0, 0.0),
                           iconPadding: EdgeInsetsDirectional.fromSTEB(
                               0.0, 0.0, 0.0, 0.0),
-                          color: FlutterFlowTheme.of(context).primary,
+                          color: Color(0xFF8C0000),
                           textStyle:
                               FlutterFlowTheme.of(context).titleSmall.override(
                                     font: GoogleFonts.interTight(
@@ -462,8 +489,8 @@ class _LoginWidgetState extends State<LoginWidget> {
                         ),
                       ),
                       FFButtonWidget(
-                        onPressed: () {
-                          print('btnsignin pressed ...');
+                        onPressed: () async {
+                          context.pushNamed(SignInWidget.routeName);
                         },
                         text: 'Sign In',
                         options: FFButtonOptions(
@@ -472,7 +499,7 @@ class _LoginWidgetState extends State<LoginWidget> {
                               16.0, 0.0, 16.0, 0.0),
                           iconPadding: EdgeInsetsDirectional.fromSTEB(
                               0.0, 0.0, 0.0, 0.0),
-                          color: FlutterFlowTheme.of(context).primary,
+                          color: Color(0xFF8C0000),
                           textStyle:
                               FlutterFlowTheme.of(context).titleSmall.override(
                                     font: GoogleFonts.interTight(
