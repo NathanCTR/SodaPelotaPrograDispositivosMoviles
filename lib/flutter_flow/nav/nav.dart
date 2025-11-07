@@ -98,6 +98,16 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
           name: SignInWidget.routeName,
           path: SignInWidget.routePath,
           builder: (context, params) => SignInWidget(),
+        ),
+        FFRoute(
+          name: AboutUsWidget.routeName,
+          path: AboutUsWidget.routePath,
+          builder: (context, params) => AboutUsWidget(),
+        ),
+        FFRoute(
+          name: ContactWidget.routeName,
+          path: ContactWidget.routePath,
+          builder: (context, params) => ContactWidget(),
         )
       ].map((r) => r.toRoute(appStateNotifier)).toList(),
     );
