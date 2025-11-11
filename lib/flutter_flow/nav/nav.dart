@@ -108,6 +108,21 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
           name: ContactWidget.routeName,
           path: ContactWidget.routePath,
           builder: (context, params) => ContactWidget(),
+        ),
+        FFRoute(
+          name: MenuWidget.routeName,
+          path: MenuWidget.routePath,
+          builder: (context, params) => MenuWidget(),
+        ),
+        FFRoute(
+          name: SubmenuHamburgesasWidget.routeName,
+          path: SubmenuHamburgesasWidget.routePath,
+          builder: (context, params) => SubmenuHamburgesasWidget(),
+        ),
+        FFRoute(
+          name: SubmenuPolloWidget.routeName,
+          path: SubmenuPolloWidget.routePath,
+          builder: (context, params) => SubmenuPolloWidget(),
         )
       ].map((r) => r.toRoute(appStateNotifier)).toList(),
     );
