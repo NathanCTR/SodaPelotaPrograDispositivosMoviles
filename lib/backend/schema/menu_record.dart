@@ -35,11 +35,23 @@ class MenuRecord extends FirestoreRecord {
   String get image => _image ?? '';
   bool hasImage() => _image != null;
 
+  // "details" field.
+  String? _details;
+  String get details => _details ?? '';
+  bool hasDetails() => _details != null;
+
+  // "favorite" field.
+  bool? _favorite;
+  bool get favorite => _favorite ?? false;
+  bool hasFavorite() => _favorite != null;
+
   void _initializeFields() {
     _combo = snapshotData['combo'] as String?;
     _sku = snapshotData['SKU'] as String?;
     _price = castToType<int>(snapshotData['price']);
     _image = snapshotData['image'] as String?;
+    _details = snapshotData['details'] as String?;
+    _favorite = snapshotData['favorite'] as bool?;
   }
 
   static CollectionReference get collection =>
@@ -80,6 +92,8 @@ Map<String, dynamic> createMenuRecordData({
   String? sku,
   int? price,
   String? image,
+  String? details,
+  bool? favorite,
 }) {
   final firestoreData = mapToFirestore(
     <String, dynamic>{
@@ -87,6 +101,8 @@ Map<String, dynamic> createMenuRecordData({
       'SKU': sku,
       'price': price,
       'image': image,
+      'details': details,
+      'favorite': favorite,
     }.withoutNulls,
   );
 
@@ -101,12 +117,14 @@ class MenuRecordDocumentEquality implements Equality<MenuRecord> {
     return e1?.combo == e2?.combo &&
         e1?.sku == e2?.sku &&
         e1?.price == e2?.price &&
-        e1?.image == e2?.image;
+        e1?.image == e2?.image &&
+        e1?.details == e2?.details &&
+        e1?.favorite == e2?.favorite;
   }
 
   @override
-  int hash(MenuRecord? e) =>
-      const ListEquality().hash([e?.combo, e?.sku, e?.price, e?.image]);
+  int hash(MenuRecord? e) => const ListEquality()
+      .hash([e?.combo, e?.sku, e?.price, e?.image, e?.details, e?.favorite]);
 
   @override
   bool isValidKey(Object? o) => o is MenuRecord;

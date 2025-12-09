@@ -15,6 +15,10 @@ class SignInModel extends FlutterFlowModel<SignInWidget> {
   TextEditingController? txtcontrasenaTextController;
   late bool txtcontrasenaVisibility;
   String? Function(BuildContext, String?)? txtcontrasenaTextControllerValidator;
+  // State field(s) for txtNombre widget.
+  FocusNode? txtNombreFocusNode;
+  TextEditingController? txtNombreTextController;
+  String? Function(BuildContext, String?)? txtNombreTextControllerValidator;
 
   @override
   void initState(BuildContext context) {
@@ -28,5 +32,8 @@ class SignInModel extends FlutterFlowModel<SignInWidget> {
 
     txtcontrasenaFocusNode?.dispose();
     txtcontrasenaTextController?.dispose();
+
+    txtNombreFocusNode?.dispose();
+    txtNombreTextController?.dispose();
   }
 }

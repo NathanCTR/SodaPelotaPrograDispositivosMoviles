@@ -7,6 +7,7 @@ import 'schema/util/firestore_util.dart';
 
 import 'schema/users_record.dart';
 import 'schema/menu_record.dart';
+import 'schema/producto_carrito_record.dart';
 
 export 'dart:async' show StreamSubscription;
 export 'package:cloud_firestore/cloud_firestore.dart' hide Order;
@@ -17,6 +18,7 @@ export 'schema/util/schema_util.dart';
 
 export 'schema/users_record.dart';
 export 'schema/menu_record.dart';
+export 'schema/producto_carrito_record.dart';
 
 /// Functions to query UsersRecords (as a Stream and as a Future).
 Future<int> queryUsersRecordCount({
@@ -87,6 +89,43 @@ Future<List<MenuRecord>> queryMenuRecordOnce({
     queryCollectionOnce(
       MenuRecord.collection,
       MenuRecord.fromSnapshot,
+      queryBuilder: queryBuilder,
+      limit: limit,
+      singleRecord: singleRecord,
+    );
+
+/// Functions to query ProductoCarritoRecords (as a Stream and as a Future).
+Future<int> queryProductoCarritoRecordCount({
+  Query Function(Query)? queryBuilder,
+  int limit = -1,
+}) =>
+    queryCollectionCount(
+      ProductoCarritoRecord.collection,
+      queryBuilder: queryBuilder,
+      limit: limit,
+    );
+
+Stream<List<ProductoCarritoRecord>> queryProductoCarritoRecord({
+  Query Function(Query)? queryBuilder,
+  int limit = -1,
+  bool singleRecord = false,
+}) =>
+    queryCollection(
+      ProductoCarritoRecord.collection,
+      ProductoCarritoRecord.fromSnapshot,
+      queryBuilder: queryBuilder,
+      limit: limit,
+      singleRecord: singleRecord,
+    );
+
+Future<List<ProductoCarritoRecord>> queryProductoCarritoRecordOnce({
+  Query Function(Query)? queryBuilder,
+  int limit = -1,
+  bool singleRecord = false,
+}) =>
+    queryCollectionOnce(
+      ProductoCarritoRecord.collection,
+      ProductoCarritoRecord.fromSnapshot,
       queryBuilder: queryBuilder,
       limit: limit,
       singleRecord: singleRecord,

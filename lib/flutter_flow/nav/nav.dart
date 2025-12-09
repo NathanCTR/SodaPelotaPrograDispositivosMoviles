@@ -5,7 +5,7 @@ import 'package:provider/provider.dart';
 
 import '/auth/base_auth_user_provider.dart';
 
-import '/flutter_flow/flutter_flow_theme.dart';
+import '/main.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 
 import '/index.dart';
@@ -76,13 +76,13 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
       refreshListenable: appStateNotifier,
       navigatorKey: appNavigatorKey,
       errorBuilder: (context, state) =>
-          appStateNotifier.loggedIn ? IndexWidget() : LoginWidget(),
+          appStateNotifier.loggedIn ? NavBarPage() : LoginWidget(),
       routes: [
         FFRoute(
           name: '_initialize',
           path: '/',
           builder: (context, _) =>
-              appStateNotifier.loggedIn ? IndexWidget() : LoginWidget(),
+              appStateNotifier.loggedIn ? NavBarPage() : LoginWidget(),
         ),
         FFRoute(
           name: LoginWidget.routeName,
@@ -92,7 +92,8 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
         FFRoute(
           name: IndexWidget.routeName,
           path: IndexWidget.routePath,
-          builder: (context, params) => IndexWidget(),
+          builder: (context, params) =>
+              params.isEmpty ? NavBarPage(initialPage: 'index') : IndexWidget(),
         ),
         FFRoute(
           name: SignInWidget.routeName,
@@ -105,24 +106,85 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
           builder: (context, params) => AboutUsWidget(),
         ),
         FFRoute(
-          name: ContactWidget.routeName,
-          path: ContactWidget.routePath,
-          builder: (context, params) => ContactWidget(),
-        ),
+            name: ContactWidget.routeName,
+            path: ContactWidget.routePath,
+            builder: (context, params) => NavBarPage(
+                  initialPage: '',
+                  page: ContactWidget(),
+                )),
         FFRoute(
           name: MenuWidget.routeName,
           path: MenuWidget.routePath,
-          builder: (context, params) => MenuWidget(),
+          builder: (context, params) =>
+              params.isEmpty ? NavBarPage(initialPage: 'Menu') : MenuWidget(),
         ),
         FFRoute(
-          name: SubmenuHamburgesasWidget.routeName,
-          path: SubmenuHamburgesasWidget.routePath,
-          builder: (context, params) => SubmenuHamburgesasWidget(),
+            name: SubmenuHamburgesasWidget.routeName,
+            path: SubmenuHamburgesasWidget.routePath,
+            builder: (context, params) => NavBarPage(
+                  initialPage: '',
+                  page: SubmenuHamburgesasWidget(),
+                )),
+        FFRoute(
+            name: SubmenuPolloWidget.routeName,
+            path: SubmenuPolloWidget.routePath,
+            builder: (context, params) => NavBarPage(
+                  initialPage: '',
+                  page: SubmenuPolloWidget(),
+                )),
+        FFRoute(
+            name: SubmenuPizzaWidget.routeName,
+            path: SubmenuPizzaWidget.routePath,
+            builder: (context, params) => NavBarPage(
+                  initialPage: '',
+                  page: SubmenuPizzaWidget(),
+                )),
+        FFRoute(
+          name: SubmenuBocadillosWidget.routeName,
+          path: SubmenuBocadillosWidget.routePath,
+          builder: (context, params) => SubmenuBocadillosWidget(),
         ),
         FFRoute(
-          name: SubmenuPolloWidget.routeName,
-          path: SubmenuPolloWidget.routePath,
-          builder: (context, params) => SubmenuPolloWidget(),
+            name: SubmenuRefrescosWidget.routeName,
+            path: SubmenuRefrescosWidget.routePath,
+            builder: (context, params) => NavBarPage(
+                  initialPage: '',
+                  page: SubmenuRefrescosWidget(),
+                )),
+        FFRoute(
+            name: MercanciaWidget.routeName,
+            path: MercanciaWidget.routePath,
+            builder: (context, params) => NavBarPage(
+                  initialPage: '',
+                  page: MercanciaWidget(),
+                )),
+        FFRoute(
+          name: PerfilWidget.routeName,
+          path: PerfilWidget.routePath,
+          builder: (context, params) => params.isEmpty
+              ? NavBarPage(initialPage: 'perfil')
+              : PerfilWidget(),
+        ),
+        FFRoute(
+            name: CartWidget.routeName,
+            path: CartWidget.routePath,
+            builder: (context, params) => params.isEmpty
+                ? NavBarPage(initialPage: 'Cart')
+                : NavBarPage(
+                    initialPage: 'Cart',
+                    page: CartWidget(),
+                  )),
+        FFRoute(
+            name: SubperfilUpdateWidget.routeName,
+            path: SubperfilUpdateWidget.routePath,
+            builder: (context, params) => NavBarPage(
+                  initialPage: '',
+                  page: SubperfilUpdateWidget(),
+                )),
+        FFRoute(
+          name: SubMercanciaUpdateWidget.routeName,
+          path: SubMercanciaUpdateWidget.routePath,
+          builder: (context, params) => SubMercanciaUpdateWidget(),
         )
       ].map((r) => r.toRoute(appStateNotifier)).toList(),
     );
@@ -307,15 +369,11 @@ class FFRoute {
                 )
               : builder(context, ffParams);
           final child = appStateNotifier.loading
-              ? Center(
-                  child: SizedBox(
-                    width: 50.0,
-                    height: 50.0,
-                    child: CircularProgressIndicator(
-                      valueColor: AlwaysStoppedAnimation<Color>(
-                        FlutterFlowTheme.of(context).primary,
-                      ),
-                    ),
+              ? Container(
+                  color: Colors.transparent,
+                  child: Image.asset(
+                    'assets/images/Screenshot_2025-11-28_at_21.33.02.png',
+                    fit: BoxFit.cover,
                   ),
                 )
               : page;

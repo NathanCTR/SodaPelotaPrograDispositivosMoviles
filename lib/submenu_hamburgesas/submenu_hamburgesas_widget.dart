@@ -1,6 +1,13 @@
+import '/auth/firebase_auth/auth_util.dart';
 import '/backend/backend.dart';
+import '/components/bs_agregar_producto_widget.dart';
+import '/flutter_flow/flutter_flow_icon_button.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
+import '/flutter_flow/flutter_flow_toggle_icon.dart';
 import '/flutter_flow/flutter_flow_util.dart';
+import '/flutter_flow/custom_functions.dart' as functions;
+import '/index.dart';
+import 'package:badges/badges.dart' as badges;
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'submenu_hamburgesas_model.dart';
@@ -48,12 +55,26 @@ class _SubmenuHamburgesasWidgetState extends State<SubmenuHamburgesasWidget> {
         key: scaffoldKey,
         backgroundColor: FlutterFlowTheme.of(context).primaryBackground,
         appBar: AppBar(
-          backgroundColor: Color(0xFF8C0000),
+          backgroundColor: FlutterFlowTheme.of(context).primary,
           automaticallyImplyLeading: false,
+          leading: FlutterFlowIconButton(
+            borderColor: Colors.transparent,
+            borderRadius: 30.0,
+            borderWidth: 1.0,
+            buttonSize: 60.0,
+            icon: Icon(
+              Icons.arrow_back_rounded,
+              color: Colors.white,
+              size: 30.0,
+            ),
+            onPressed: () async {
+              context.pop();
+            },
+          ),
           title: Text(
             'Soda Pelota',
             style: FlutterFlowTheme.of(context).headlineMedium.override(
-                  font: GoogleFonts.interTight(
+                  font: GoogleFonts.merriweather(
                     fontWeight:
                         FlutterFlowTheme.of(context).headlineMedium.fontWeight,
                     fontStyle:
@@ -68,7 +89,86 @@ class _SubmenuHamburgesasWidgetState extends State<SubmenuHamburgesasWidget> {
                       FlutterFlowTheme.of(context).headlineMedium.fontStyle,
                 ),
           ),
-          actions: [],
+          actions: [
+            Padding(
+              padding: EdgeInsets.all(18.0),
+              child: FutureBuilder<int>(
+                future: queryProductoCarritoRecordCount(
+                  queryBuilder: (productoCarritoRecord) =>
+                      productoCarritoRecord.where(
+                    'usuario',
+                    isEqualTo: currentUserReference,
+                  ),
+                ),
+                builder: (context, snapshot) {
+                  // Customize what your widget looks like when it's loading.
+                  if (!snapshot.hasData) {
+                    return Center(
+                      child: SizedBox(
+                        width: 50.0,
+                        height: 50.0,
+                        child: CircularProgressIndicator(
+                          valueColor: AlwaysStoppedAnimation<Color>(
+                            FlutterFlowTheme.of(context).primary,
+                          ),
+                        ),
+                      ),
+                    );
+                  }
+                  int badgeCount = snapshot.data!;
+
+                  return badges.Badge(
+                    badgeContent: Text(
+                      valueOrDefault<String>(
+                        badgeCount.toString(),
+                        '0',
+                      ),
+                      style: FlutterFlowTheme.of(context).titleSmall.override(
+                            font: GoogleFonts.merriweather(
+                              fontWeight: FlutterFlowTheme.of(context)
+                                  .titleSmall
+                                  .fontWeight,
+                              fontStyle: FlutterFlowTheme.of(context)
+                                  .titleSmall
+                                  .fontStyle,
+                            ),
+                            color: Colors.white,
+                            letterSpacing: 0.0,
+                            fontWeight: FlutterFlowTheme.of(context)
+                                .titleSmall
+                                .fontWeight,
+                            fontStyle: FlutterFlowTheme.of(context)
+                                .titleSmall
+                                .fontStyle,
+                          ),
+                    ),
+                    showBadge: true,
+                    shape: badges.BadgeShape.circle,
+                    badgeColor: FlutterFlowTheme.of(context).primary,
+                    elevation: 4.0,
+                    padding: EdgeInsetsDirectional.fromSTEB(8.0, 8.0, 8.0, 8.0),
+                    position: badges.BadgePosition.topEnd(),
+                    animationType: badges.BadgeAnimationType.scale,
+                    toAnimate: true,
+                    child: InkWell(
+                      splashColor: Colors.transparent,
+                      focusColor: Colors.transparent,
+                      hoverColor: Colors.transparent,
+                      highlightColor: Colors.transparent,
+                      onTap: () async {
+                        context.pushNamed(CartWidget.routeName);
+                      },
+                      child: Icon(
+                        Icons.shopping_cart,
+                        color: FlutterFlowTheme.of(context).primaryText,
+                        size: 30.0,
+                      ),
+                    ),
+                  );
+                },
+              ),
+            ),
+          ],
           centerTitle: false,
           elevation: 2.0,
         ),
@@ -145,101 +245,296 @@ class _SubmenuHamburgesasWidgetState extends State<SubmenuHamburgesasWidget> {
                         itemBuilder: (context, listViewIndex) {
                           final listViewMenuRecord =
                               listViewMenuRecordList[listViewIndex];
-                          return Row(
-                            mainAxisSize: MainAxisSize.max,
-                            children: [
-                              Column(
-                                mainAxisSize: MainAxisSize.max,
-                                children: [
-                                  ClipRRect(
-                                    borderRadius: BorderRadius.circular(8.0),
-                                    child: Image.network(
-                                      listViewMenuRecord.image,
-                                      width: 100.0,
-                                      height: 100.0,
-                                      fit: BoxFit.cover,
-                                    ),
-                                  ),
-                                ],
+                          return Padding(
+                            padding: EdgeInsets.all(8.0),
+                            child: Container(
+                              height: 140.0,
+                              decoration: BoxDecoration(
+                                color: functions.parimpar(listViewIndex) == true
+                                    ? FlutterFlowTheme.of(context).alternate
+                                    : FlutterFlowTheme.of(context)
+                                        .secondaryBackground,
+                                borderRadius: BorderRadius.circular(6.0),
                               ),
-                              Expanded(
-                                child: Column(
+                              child: InkWell(
+                                splashColor: Colors.transparent,
+                                focusColor: Colors.transparent,
+                                hoverColor: Colors.transparent,
+                                highlightColor: Colors.transparent,
+                                onTap: () async {
+                                  var confirmDialogResponse = await showDialog<
+                                          bool>(
+                                        context: context,
+                                        builder: (alertDialogContext) {
+                                          return AlertDialog(
+                                            title:
+                                                Text(listViewMenuRecord.combo),
+                                            content: Text(listViewMenuRecord
+                                                .price
+                                                .toString()),
+                                            actions: [
+                                              TextButton(
+                                                onPressed: () => Navigator.pop(
+                                                    alertDialogContext, false),
+                                                child: Text('Cancelar'),
+                                              ),
+                                              TextButton(
+                                                onPressed: () => Navigator.pop(
+                                                    alertDialogContext, true),
+                                                child: Text('Comprar'),
+                                              ),
+                                            ],
+                                          );
+                                        },
+                                      ) ??
+                                      false;
+                                },
+                                child: Row(
                                   mainAxisSize: MainAxisSize.max,
                                   children: [
-                                    Row(
+                                    Column(
                                       mainAxisSize: MainAxisSize.max,
                                       children: [
-                                        Expanded(
-                                          child: Text(
-                                            listViewMenuRecord.combo,
-                                            style: FlutterFlowTheme.of(context)
-                                                .bodyMedium
-                                                .override(
-                                                  font: GoogleFonts.inter(
-                                                    fontWeight:
-                                                        FlutterFlowTheme.of(
-                                                                context)
-                                                            .bodyMedium
-                                                            .fontWeight,
-                                                    fontStyle:
-                                                        FlutterFlowTheme.of(
-                                                                context)
-                                                            .bodyMedium
-                                                            .fontStyle,
-                                                  ),
-                                                  letterSpacing: 0.0,
-                                                  fontWeight:
-                                                      FlutterFlowTheme.of(
-                                                              context)
-                                                          .bodyMedium
-                                                          .fontWeight,
-                                                  fontStyle:
-                                                      FlutterFlowTheme.of(
-                                                              context)
-                                                          .bodyMedium
-                                                          .fontStyle,
-                                                ),
+                                        ClipRRect(
+                                          borderRadius:
+                                              BorderRadius.circular(8.0),
+                                          child: Image.network(
+                                            valueOrDefault<String>(
+                                              listViewMenuRecord.image,
+                                              'https://png.pngtree.com/png-clipart/20220704/original/pngtree-square-shape-sandwich-png-image_8296537.png',
+                                            ),
+                                            width: 100.0,
+                                            height: 100.0,
+                                            fit: BoxFit.cover,
                                           ),
                                         ),
                                       ],
                                     ),
-                                    Row(
-                                      mainAxisSize: MainAxisSize.max,
-                                      children: [
-                                        Text(
-                                          listViewMenuRecord.price.toString(),
-                                          style: FlutterFlowTheme.of(context)
-                                              .bodyMedium
-                                              .override(
-                                                font: GoogleFonts.inter(
-                                                  fontWeight:
-                                                      FlutterFlowTheme.of(
-                                                              context)
-                                                          .bodyMedium
-                                                          .fontWeight,
-                                                  fontStyle:
-                                                      FlutterFlowTheme.of(
-                                                              context)
-                                                          .bodyMedium
-                                                          .fontStyle,
+                                    Expanded(
+                                      child: Column(
+                                        mainAxisSize: MainAxisSize.max,
+                                        children: [
+                                          Row(
+                                            mainAxisSize: MainAxisSize.max,
+                                            children: [
+                                              Expanded(
+                                                child: Text(
+                                                  listViewMenuRecord.combo,
+                                                  style: FlutterFlowTheme.of(
+                                                          context)
+                                                      .bodyMedium
+                                                      .override(
+                                                        font: GoogleFonts.inter(
+                                                          fontWeight:
+                                                              FlutterFlowTheme.of(
+                                                                      context)
+                                                                  .bodyMedium
+                                                                  .fontWeight,
+                                                          fontStyle:
+                                                              FlutterFlowTheme.of(
+                                                                      context)
+                                                                  .bodyMedium
+                                                                  .fontStyle,
+                                                        ),
+                                                        letterSpacing: 0.0,
+                                                        fontWeight:
+                                                            FlutterFlowTheme.of(
+                                                                    context)
+                                                                .bodyMedium
+                                                                .fontWeight,
+                                                        fontStyle:
+                                                            FlutterFlowTheme.of(
+                                                                    context)
+                                                                .bodyMedium
+                                                                .fontStyle,
+                                                      ),
                                                 ),
-                                                letterSpacing: 0.0,
-                                                fontWeight:
-                                                    FlutterFlowTheme.of(context)
-                                                        .bodyMedium
-                                                        .fontWeight,
-                                                fontStyle:
-                                                    FlutterFlowTheme.of(context)
-                                                        .bodyMedium
-                                                        .fontStyle,
                                               ),
-                                        ),
-                                      ],
+                                              Padding(
+                                                padding: EdgeInsetsDirectional
+                                                    .fromSTEB(
+                                                        4.0, 0.0, 0.0, 0.0),
+                                                child: ToggleIcon(
+                                                  onPressed: () async {
+                                                    await listViewMenuRecord
+                                                        .reference
+                                                        .update({
+                                                      ...mapToFirestore(
+                                                        {
+                                                          'favorite':
+                                                              !listViewMenuRecord
+                                                                  .favorite,
+                                                        },
+                                                      ),
+                                                    });
+                                                  },
+                                                  value: listViewMenuRecord
+                                                      .favorite,
+                                                  onIcon: Icon(
+                                                    Icons.favorite_sharp,
+                                                    color: FlutterFlowTheme.of(
+                                                            context)
+                                                        .primary,
+                                                    size: 24.0,
+                                                  ),
+                                                  offIcon: Icon(
+                                                    Icons.favorite_border,
+                                                    color: FlutterFlowTheme.of(
+                                                            context)
+                                                        .secondaryText,
+                                                    size: 24.0,
+                                                  ),
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                          Padding(
+                                            padding:
+                                                EdgeInsetsDirectional.fromSTEB(
+                                                    0.0, 5.0, 0.0, 0.0),
+                                            child: Row(
+                                              mainAxisSize: MainAxisSize.max,
+                                              children: [
+                                                Text(
+                                                  listViewMenuRecord.price
+                                                      .toString(),
+                                                  style: FlutterFlowTheme.of(
+                                                          context)
+                                                      .bodyMedium
+                                                      .override(
+                                                        font: GoogleFonts.inter(
+                                                          fontWeight:
+                                                              FlutterFlowTheme.of(
+                                                                      context)
+                                                                  .bodyMedium
+                                                                  .fontWeight,
+                                                          fontStyle:
+                                                              FlutterFlowTheme.of(
+                                                                      context)
+                                                                  .bodyMedium
+                                                                  .fontStyle,
+                                                        ),
+                                                        letterSpacing: 0.0,
+                                                        fontWeight:
+                                                            FlutterFlowTheme.of(
+                                                                    context)
+                                                                .bodyMedium
+                                                                .fontWeight,
+                                                        fontStyle:
+                                                            FlutterFlowTheme.of(
+                                                                    context)
+                                                                .bodyMedium
+                                                                .fontStyle,
+                                                      ),
+                                                ),
+                                              ],
+                                            ),
+                                          ),
+                                          Padding(
+                                            padding:
+                                                EdgeInsetsDirectional.fromSTEB(
+                                                    0.0, 5.0, 0.0, 0.0),
+                                            child: Row(
+                                              mainAxisSize: MainAxisSize.max,
+                                              children: [
+                                                Text(
+                                                  listViewMenuRecord.details,
+                                                  style: FlutterFlowTheme.of(
+                                                          context)
+                                                      .bodyMedium
+                                                      .override(
+                                                        font: GoogleFonts.inter(
+                                                          fontWeight:
+                                                              FlutterFlowTheme.of(
+                                                                      context)
+                                                                  .bodyMedium
+                                                                  .fontWeight,
+                                                          fontStyle:
+                                                              FlutterFlowTheme.of(
+                                                                      context)
+                                                                  .bodyMedium
+                                                                  .fontStyle,
+                                                        ),
+                                                        letterSpacing: 0.0,
+                                                        fontWeight:
+                                                            FlutterFlowTheme.of(
+                                                                    context)
+                                                                .bodyMedium
+                                                                .fontWeight,
+                                                        fontStyle:
+                                                            FlutterFlowTheme.of(
+                                                                    context)
+                                                                .bodyMedium
+                                                                .fontStyle,
+                                                      ),
+                                                ),
+                                              ],
+                                            ),
+                                          ),
+                                          Padding(
+                                            padding:
+                                                EdgeInsetsDirectional.fromSTEB(
+                                                    220.0, 9.0, 0.0, 6.0),
+                                            child: FlutterFlowIconButton(
+                                              borderRadius: 8.0,
+                                              buttonSize: 40.0,
+                                              fillColor:
+                                                  FlutterFlowTheme.of(context)
+                                                      .primary,
+                                              icon: Icon(
+                                                Icons.add_box,
+                                                color:
+                                                    FlutterFlowTheme.of(context)
+                                                        .info,
+                                                size: 24.0,
+                                              ),
+                                              onPressed: () async {
+                                                await showModalBottomSheet(
+                                                  isScrollControlled: true,
+                                                  backgroundColor:
+                                                      Colors.transparent,
+                                                  enableDrag: false,
+                                                  context: context,
+                                                  builder: (context) {
+                                                    return GestureDetector(
+                                                      onTap: () {
+                                                        FocusScope.of(context)
+                                                            .unfocus();
+                                                        FocusManager.instance
+                                                            .primaryFocus
+                                                            ?.unfocus();
+                                                      },
+                                                      child: Padding(
+                                                        padding: MediaQuery
+                                                            .viewInsetsOf(
+                                                                context),
+                                                        child: Container(
+                                                          height:
+                                                              MediaQuery.sizeOf(
+                                                                          context)
+                                                                      .height *
+                                                                  0.4,
+                                                          child:
+                                                              BsAgregarProductoWidget(
+                                                            productoSeleccionado:
+                                                                listViewMenuRecord,
+                                                          ),
+                                                        ),
+                                                      ),
+                                                    );
+                                                  },
+                                                ).then((value) =>
+                                                    safeSetState(() {}));
+                                              },
+                                            ),
+                                          ),
+                                        ],
+                                      ),
                                     ),
                                   ],
                                 ),
                               ),
-                            ],
+                            ),
                           );
                         },
                       );

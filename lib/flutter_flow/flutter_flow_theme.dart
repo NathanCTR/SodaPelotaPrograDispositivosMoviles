@@ -3,33 +3,9 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-import 'package:shared_preferences/shared_preferences.dart';
-
-const kThemeModeKey = '__theme_mode__';
-
-SharedPreferences? _prefs;
-
 abstract class FlutterFlowTheme {
-  static Future initialize() async =>
-      _prefs = await SharedPreferences.getInstance();
-
-  static ThemeMode get themeMode {
-    final darkMode = _prefs?.getBool(kThemeModeKey);
-    return darkMode == null
-        ? ThemeMode.system
-        : darkMode
-            ? ThemeMode.dark
-            : ThemeMode.light;
-  }
-
-  static void saveThemeMode(ThemeMode mode) => mode == ThemeMode.system
-      ? _prefs?.remove(kThemeModeKey)
-      : _prefs?.setBool(kThemeModeKey, mode == ThemeMode.dark);
-
   static FlutterFlowTheme of(BuildContext context) {
-    return Theme.of(context).brightness == Brightness.dark
-        ? DarkModeTheme()
-        : LightModeTheme();
+    return LightModeTheme();
   }
 
   @Deprecated('Use primary instead')
@@ -142,11 +118,11 @@ class LightModeTheme extends FlutterFlowTheme {
   @Deprecated('Use tertiary instead')
   Color get tertiaryColor => tertiary;
 
-  late Color primary = const Color(0xFF4B39EF);
+  late Color primary = const Color(0xFF8C0000);
   late Color secondary = const Color(0xFF39D2C0);
   late Color tertiary = const Color(0xFFEE8B60);
   late Color alternate = const Color(0xFFE0E3E7);
-  late Color primaryText = const Color(0xFF14181B);
+  late Color primaryText = const Color(0xFF3A3C3C);
   late Color secondaryText = const Color(0xFF57636C);
   late Color primaryBackground = const Color(0xFFF1F4F8);
   late Color secondaryBackground = const Color(0xFFFFFFFF);
@@ -213,65 +189,65 @@ class ThemeTypography extends Typography {
 
   final FlutterFlowTheme theme;
 
-  String get displayLargeFamily => 'Inter Tight';
+  String get displayLargeFamily => 'Merriweather';
   bool get displayLargeIsCustom => false;
-  TextStyle get displayLarge => GoogleFonts.interTight(
+  TextStyle get displayLarge => GoogleFonts.merriweather(
         color: theme.primaryText,
         fontWeight: FontWeight.w600,
         fontSize: 64.0,
       );
-  String get displayMediumFamily => 'Inter Tight';
+  String get displayMediumFamily => 'Merriweather';
   bool get displayMediumIsCustom => false;
-  TextStyle get displayMedium => GoogleFonts.interTight(
+  TextStyle get displayMedium => GoogleFonts.merriweather(
         color: theme.primaryText,
         fontWeight: FontWeight.w600,
         fontSize: 44.0,
       );
-  String get displaySmallFamily => 'Inter Tight';
+  String get displaySmallFamily => 'Merriweather';
   bool get displaySmallIsCustom => false;
-  TextStyle get displaySmall => GoogleFonts.interTight(
+  TextStyle get displaySmall => GoogleFonts.merriweather(
         color: theme.primaryText,
         fontWeight: FontWeight.w600,
         fontSize: 36.0,
       );
-  String get headlineLargeFamily => 'Inter Tight';
+  String get headlineLargeFamily => 'Merriweather';
   bool get headlineLargeIsCustom => false;
-  TextStyle get headlineLarge => GoogleFonts.interTight(
+  TextStyle get headlineLarge => GoogleFonts.merriweather(
         color: theme.primaryText,
         fontWeight: FontWeight.w600,
         fontSize: 32.0,
       );
-  String get headlineMediumFamily => 'Inter Tight';
+  String get headlineMediumFamily => 'Merriweather';
   bool get headlineMediumIsCustom => false;
-  TextStyle get headlineMedium => GoogleFonts.interTight(
+  TextStyle get headlineMedium => GoogleFonts.merriweather(
         color: theme.primaryText,
         fontWeight: FontWeight.w600,
         fontSize: 28.0,
       );
-  String get headlineSmallFamily => 'Inter Tight';
+  String get headlineSmallFamily => 'Merriweather';
   bool get headlineSmallIsCustom => false;
-  TextStyle get headlineSmall => GoogleFonts.interTight(
+  TextStyle get headlineSmall => GoogleFonts.merriweather(
         color: theme.primaryText,
         fontWeight: FontWeight.w600,
         fontSize: 24.0,
       );
-  String get titleLargeFamily => 'Inter Tight';
+  String get titleLargeFamily => 'Merriweather';
   bool get titleLargeIsCustom => false;
-  TextStyle get titleLarge => GoogleFonts.interTight(
+  TextStyle get titleLarge => GoogleFonts.merriweather(
         color: theme.primaryText,
         fontWeight: FontWeight.w600,
         fontSize: 20.0,
       );
-  String get titleMediumFamily => 'Inter Tight';
+  String get titleMediumFamily => 'Merriweather';
   bool get titleMediumIsCustom => false;
-  TextStyle get titleMedium => GoogleFonts.interTight(
+  TextStyle get titleMedium => GoogleFonts.merriweather(
         color: theme.primaryText,
         fontWeight: FontWeight.w600,
         fontSize: 18.0,
       );
-  String get titleSmallFamily => 'Inter Tight';
+  String get titleSmallFamily => 'Merriweather';
   bool get titleSmallIsCustom => false;
-  TextStyle get titleSmall => GoogleFonts.interTight(
+  TextStyle get titleSmall => GoogleFonts.merriweather(
         color: theme.primaryText,
         fontWeight: FontWeight.w600,
         fontSize: 16.0,
@@ -318,32 +294,6 @@ class ThemeTypography extends Typography {
         fontWeight: FontWeight.normal,
         fontSize: 12.0,
       );
-}
-
-class DarkModeTheme extends FlutterFlowTheme {
-  @Deprecated('Use primary instead')
-  Color get primaryColor => primary;
-  @Deprecated('Use secondary instead')
-  Color get secondaryColor => secondary;
-  @Deprecated('Use tertiary instead')
-  Color get tertiaryColor => tertiary;
-
-  late Color primary = const Color(0xFF4B39EF);
-  late Color secondary = const Color(0xFF39D2C0);
-  late Color tertiary = const Color(0xFFEE8B60);
-  late Color alternate = const Color(0xFF262D34);
-  late Color primaryText = const Color(0xFFFFFFFF);
-  late Color secondaryText = const Color(0xFF95A1AC);
-  late Color primaryBackground = const Color(0xFF1D2428);
-  late Color secondaryBackground = const Color(0xFF14181B);
-  late Color accent1 = const Color(0x4C4B39EF);
-  late Color accent2 = const Color(0x4D39D2C0);
-  late Color accent3 = const Color(0x4DEE8B60);
-  late Color accent4 = const Color(0xB2262D34);
-  late Color success = const Color(0xFF249689);
-  late Color warning = const Color(0xFFF9CF58);
-  late Color error = const Color(0xFFFF5963);
-  late Color info = const Color(0xFFFFFFFF);
 }
 
 extension TextStyleHelper on TextStyle {

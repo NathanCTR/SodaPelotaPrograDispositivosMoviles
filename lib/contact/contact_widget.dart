@@ -1,3 +1,4 @@
+import '/flutter_flow/flutter_flow_icon_button.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import '/flutter_flow/flutter_flow_widgets.dart';
@@ -48,12 +49,26 @@ class _ContactWidgetState extends State<ContactWidget> {
         key: scaffoldKey,
         backgroundColor: FlutterFlowTheme.of(context).primaryBackground,
         appBar: AppBar(
-          backgroundColor: Color(0xFF8C0000),
+          backgroundColor: FlutterFlowTheme.of(context).primary,
           automaticallyImplyLeading: false,
+          leading: FlutterFlowIconButton(
+            borderColor: Colors.transparent,
+            borderRadius: 30.0,
+            borderWidth: 1.0,
+            buttonSize: 60.0,
+            icon: Icon(
+              Icons.arrow_back_rounded,
+              color: Colors.white,
+              size: 30.0,
+            ),
+            onPressed: () async {
+              context.pop();
+            },
+          ),
           title: Text(
             'Soda Pelota',
             style: FlutterFlowTheme.of(context).headlineMedium.override(
-                  font: GoogleFonts.interTight(
+                  font: GoogleFonts.merriweather(
                     fontWeight:
                         FlutterFlowTheme.of(context).headlineMedium.fontWeight,
                     fontStyle:
@@ -78,78 +93,126 @@ class _ContactWidgetState extends State<ContactWidget> {
             mainAxisSize: MainAxisSize.max,
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
+              Row(
+                mainAxisSize: MainAxisSize.max,
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text(
+                    'Contactos de la empresa',
+                    style: FlutterFlowTheme.of(context).bodyMedium.override(
+                          font: GoogleFonts.inter(
+                            fontWeight: FlutterFlowTheme.of(context)
+                                .bodyMedium
+                                .fontWeight,
+                            fontStyle: FlutterFlowTheme.of(context)
+                                .bodyMedium
+                                .fontStyle,
+                          ),
+                          fontSize: 28.0,
+                          letterSpacing: 0.0,
+                          fontWeight: FlutterFlowTheme.of(context)
+                              .bodyMedium
+                              .fontWeight,
+                          fontStyle:
+                              FlutterFlowTheme.of(context).bodyMedium.fontStyle,
+                        ),
+                  ),
+                ],
+              ),
               Column(
                 mainAxisSize: MainAxisSize.max,
                 children: [
-                  Row(
-                    mainAxisSize: MainAxisSize.max,
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Column(
-                        mainAxisSize: MainAxisSize.max,
-                        children: [
-                          Padding(
-                            padding: EdgeInsetsDirectional.fromSTEB(
-                                0.0, 0.0, 10.0, 0.0),
-                            child: Text(
-                              'Telefono:\n+50686295788',
-                              textAlign: TextAlign.center,
-                              style: FlutterFlowTheme.of(context)
-                                  .bodyMedium
-                                  .override(
-                                    font: GoogleFonts.inter(
-                                      fontWeight: FlutterFlowTheme.of(context)
-                                          .bodyMedium
-                                          .fontWeight,
-                                      fontStyle: FlutterFlowTheme.of(context)
-                                          .bodyMedium
-                                          .fontStyle,
-                                    ),
-                                    letterSpacing: 0.0,
-                                    fontWeight: FlutterFlowTheme.of(context)
-                                        .bodyMedium
-                                        .fontWeight,
-                                    fontStyle: FlutterFlowTheme.of(context)
-                                        .bodyMedium
-                                        .fontStyle,
-                                  ),
+                  Container(
+                    width: 350.0,
+                    height: 200.0,
+                    decoration: BoxDecoration(
+                      color: FlutterFlowTheme.of(context).primary,
+                      borderRadius: BorderRadius.circular(0.0),
+                      border: Border.all(
+                        color: Color(0xFF0E0C0C),
+                        width: 10.0,
+                      ),
+                    ),
+                    child: Row(
+                      mainAxisSize: MainAxisSize.max,
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Container(
+                          width: 280.0,
+                          height: 150.0,
+                          decoration: BoxDecoration(
+                            color: FlutterFlowTheme.of(context)
+                                .secondaryBackground,
+                            border: Border.all(
+                              color: Color(0xFF120F0F),
                             ),
                           ),
-                        ],
-                      ),
-                      Column(
-                        mainAxisSize: MainAxisSize.max,
-                        children: [
-                          Padding(
-                            padding: EdgeInsetsDirectional.fromSTEB(
-                                10.0, 0.0, 0.0, 0.0),
-                            child: Text(
-                              'Correo:\nsodapelota@gmail.com',
-                              textAlign: TextAlign.center,
-                              style: FlutterFlowTheme.of(context)
-                                  .bodyMedium
-                                  .override(
-                                    font: GoogleFonts.inter(
-                                      fontWeight: FlutterFlowTheme.of(context)
-                                          .bodyMedium
-                                          .fontWeight,
-                                      fontStyle: FlutterFlowTheme.of(context)
-                                          .bodyMedium
-                                          .fontStyle,
-                                    ),
-                                    letterSpacing: 0.0,
-                                    fontWeight: FlutterFlowTheme.of(context)
-                                        .bodyMedium
-                                        .fontWeight,
-                                    fontStyle: FlutterFlowTheme.of(context)
-                                        .bodyMedium
-                                        .fontStyle,
-                                  ),
-                            ),
+                          child: Column(
+                            mainAxisSize: MainAxisSize.max,
+                            children: [
+                              Padding(
+                                padding: EdgeInsetsDirectional.fromSTEB(
+                                    0.0, 20.0, 10.0, 10.0),
+                                child: Text(
+                                  'Telefono:\n+50686295788',
+                                  textAlign: TextAlign.center,
+                                  style: FlutterFlowTheme.of(context)
+                                      .bodyMedium
+                                      .override(
+                                        font: GoogleFonts.inter(
+                                          fontWeight:
+                                              FlutterFlowTheme.of(context)
+                                                  .bodyMedium
+                                                  .fontWeight,
+                                          fontStyle:
+                                              FlutterFlowTheme.of(context)
+                                                  .bodyMedium
+                                                  .fontStyle,
+                                        ),
+                                        letterSpacing: 0.0,
+                                        fontWeight: FlutterFlowTheme.of(context)
+                                            .bodyMedium
+                                            .fontWeight,
+                                        fontStyle: FlutterFlowTheme.of(context)
+                                            .bodyMedium
+                                            .fontStyle,
+                                      ),
+                                ),
+                              ),
+                              Padding(
+                                padding: EdgeInsetsDirectional.fromSTEB(
+                                    10.0, 10.0, 0.0, 20.0),
+                                child: Text(
+                                  'Correo:\nsodapelota@gmail.com',
+                                  textAlign: TextAlign.center,
+                                  style: FlutterFlowTheme.of(context)
+                                      .bodyMedium
+                                      .override(
+                                        font: GoogleFonts.inter(
+                                          fontWeight:
+                                              FlutterFlowTheme.of(context)
+                                                  .bodyMedium
+                                                  .fontWeight,
+                                          fontStyle:
+                                              FlutterFlowTheme.of(context)
+                                                  .bodyMedium
+                                                  .fontStyle,
+                                        ),
+                                        letterSpacing: 0.0,
+                                        fontWeight: FlutterFlowTheme.of(context)
+                                            .bodyMedium
+                                            .fontWeight,
+                                        fontStyle: FlutterFlowTheme.of(context)
+                                            .bodyMedium
+                                            .fontStyle,
+                                      ),
+                                ),
+                              ),
+                            ],
                           ),
-                        ],
-                      ),
-                    ],
+                        ),
+                      ],
+                    ),
                   ),
                 ],
               ),
@@ -176,10 +239,10 @@ class _ContactWidgetState extends State<ContactWidget> {
                               16.0, 0.0, 16.0, 0.0),
                           iconPadding: EdgeInsetsDirectional.fromSTEB(
                               0.0, 0.0, 0.0, 0.0),
-                          color: FlutterFlowTheme.of(context).primary,
+                          color: Color(0xFF386AF8),
                           textStyle:
                               FlutterFlowTheme.of(context).titleSmall.override(
-                                    font: GoogleFonts.interTight(
+                                    font: GoogleFonts.merriweather(
                                       fontWeight: FlutterFlowTheme.of(context)
                                           .titleSmall
                                           .fontWeight,
@@ -218,7 +281,7 @@ class _ContactWidgetState extends State<ContactWidget> {
                           color: Color(0xFFE7114F),
                           textStyle:
                               FlutterFlowTheme.of(context).titleSmall.override(
-                                    font: GoogleFonts.interTight(
+                                    font: GoogleFonts.merriweather(
                                       fontWeight: FlutterFlowTheme.of(context)
                                           .titleSmall
                                           .fontWeight,
@@ -265,7 +328,7 @@ class _ContactWidgetState extends State<ContactWidget> {
                           color: FlutterFlowTheme.of(context).primary,
                           textStyle:
                               FlutterFlowTheme.of(context).titleSmall.override(
-                                    font: GoogleFonts.interTight(
+                                    font: GoogleFonts.merriweather(
                                       fontWeight: FlutterFlowTheme.of(context)
                                           .titleSmall
                                           .fontWeight,

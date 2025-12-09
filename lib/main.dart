@@ -1,3 +1,4 @@
+import 'package:provider/provider.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 
@@ -9,6 +10,8 @@ import 'auth/firebase_auth/auth_util.dart';
 import 'backend/firebase/firebase_config.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
 import 'flutter_flow/flutter_flow_util.dart';
+import 'package:google_nav_bar/google_nav_bar.dart';
+import 'index.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -17,9 +20,13 @@ void main() async {
 
   await initFirebase();
 
-  await FlutterFlowTheme.initialize();
+  final appState = FFAppState(); // Initialize FFAppState
+  await appState.initializePersistedState();
 
-  runApp(MyApp());
+  runApp(ChangeNotifierProvider(
+    create: (context) => appState,
+    child: MyApp(),
+  ));
 }
 
 class MyApp extends StatefulWidget {
@@ -40,7 +47,7 @@ class MyAppScrollBehavior extends MaterialScrollBehavior {
 }
 
 class _MyAppState extends State<MyApp> {
-  ThemeMode _themeMode = FlutterFlowTheme.themeMode;
+  ThemeMode _themeMode = ThemeMode.system;
 
   late AppStateNotifier _appStateNotifier;
   late GoRouter _router;
@@ -87,7 +94,6 @@ class _MyAppState extends State<MyApp> {
 
   void setThemeMode(ThemeMode mode) => safeSetState(() {
         _themeMode = mode;
-        FlutterFlowTheme.saveThemeMode(mode);
       });
 
   @override
@@ -106,12 +112,93 @@ class _MyAppState extends State<MyApp> {
         brightness: Brightness.light,
         useMaterial3: false,
       ),
-      darkTheme: ThemeData(
-        brightness: Brightness.dark,
-        useMaterial3: false,
-      ),
       themeMode: _themeMode,
       routerConfig: _router,
+    );
+  }
+}
+
+class NavBarPage extends StatefulWidget {
+  NavBarPage({
+    Key? key,
+    this.initialPage,
+    this.page,
+    this.disableResizeToAvoidBottomInset = false,
+  }) : super(key: key);
+
+  final String? initialPage;
+  final Widget? page;
+  final bool disableResizeToAvoidBottomInset;
+
+  @override
+  _NavBarPageState createState() => _NavBarPageState();
+}
+
+/// This is the private State class that goes with NavBarPage.
+class _NavBarPageState extends State<NavBarPage> {
+  String _currentPageName = 'index';
+  late Widget? _currentPage;
+
+  @override
+  void initState() {
+    super.initState();
+    _currentPageName = widget.initialPage ?? _currentPageName;
+    _currentPage = widget.page;
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final tabs = {
+      'index': IndexWidget(),
+      'Menu': MenuWidget(),
+      'perfil': PerfilWidget(),
+      'Cart': CartWidget(),
+    };
+    final currentIndex = tabs.keys.toList().indexOf(_currentPageName);
+
+    return Scaffold(
+      resizeToAvoidBottomInset: !widget.disableResizeToAvoidBottomInset,
+      body: _currentPage ?? tabs[_currentPageName],
+      bottomNavigationBar: GNav(
+        selectedIndex: currentIndex,
+        onTabChange: (i) => safeSetState(() {
+          _currentPage = null;
+          _currentPageName = tabs.keys.toList()[i];
+        }),
+        backgroundColor: FlutterFlowTheme.of(context).primary,
+        color: Colors.white,
+        activeColor: Color(0xFFFF8F8F),
+        tabBackgroundColor: Color(0x00000000),
+        tabBorderRadius: 100.0,
+        tabMargin: EdgeInsetsDirectional.fromSTEB(20.0, 20.0, 20.0, 20.0),
+        padding: EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 0.0, 0.0),
+        gap: 0.0,
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        duration: Duration(milliseconds: 500),
+        haptic: false,
+        tabs: [
+          GButton(
+            icon: Icons.home_outlined,
+            text: 'Home',
+            iconSize: 24.0,
+          ),
+          GButton(
+            icon: Icons.restaurant_menu_sharp,
+            text: 'Home',
+            iconSize: 24.0,
+          ),
+          GButton(
+            icon: Icons.person,
+            text: 'Home',
+            iconSize: 24.0,
+          ),
+          GButton(
+            icon: Icons.shopping_cart,
+            text: '',
+            iconSize: 24.0,
+          )
+        ],
+      ),
     );
   }
 }
